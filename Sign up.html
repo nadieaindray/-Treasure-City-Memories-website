@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .nav1 {
+            background-color: rgba(100, 149, 237, 0.7);
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(100, 149, 237, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav1 .logo img {
+            width: 50px;
+            padding-left: 20px;
+        }
+
+        .nav1 ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .nav1 ul li {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .nav1 ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .nav1 ul li:hover {
+            background-color: rgba(70, 130, 180, 0.8);
+        }
+
+        .form {
+            color: #0078d7;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #0078d7;
+            border: 0px;
+            width: 90px;
+            height: 30px;
+            color: aliceblue;
+        }
+
+        span {
+            color: rgb(182, 5, 5);
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav1">
+        <div id="menu-icon">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul>
+            <li class="nav"><a href="Home page.html">Home</a></li>
+            <li class="nav"><a href="Menu page.html">Menu</a></li>
+            <li class="nav"><a href="Login .html">Log In</a></li>
+            <li class="nav"><a href="Sign up.html">Sign Up</a></li>
+        </ul>
+
+    </nav>
+    <form id="mainForm">
+        <div class="form">
+            <div class="Email">
+                <label for="Email" class="form-label">Email</label><br><br>
+                <input type="email" id="email"><br><br>
+                <span class="required" id="email-required">Email address is required.</span><br><br>
+            </div>
+            <div class="password">
+                <label for="Password" class="form-label">Password</label><br><br>
+                <input type="password" id="password"><br><br>
+                <span class="required" id="password-required">Password is required.</span><br><br>
+            </div>
+            <div>
+                <label for="confirm-password" class="form-label">Confirm password</label><br><br>
+                <input type="password" id="confirm-password" /><br><br>
+                <span class="required" id="confirm-password-required">Confirm password is required</span><br><br>
+            </div>
+            <div>
+                <button type="submit" class="submit-button">Submit!</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm-password");
+        const mainForm = document.getElementById("mainForm");
+        const submitBtn = document.querySelector("#mainForm .submit-button");
+        const emailError = document.getElementById("email-required");
+        const passwordError = document.getElementById("password-required");
+        const confirmPasswordError = document.getElementById("confirm-password-required");
+
+
+        submitBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            let isValid = true;
+
+            if (email.value === "") {
+                emailError.style.display = "block";
+                isValid = false;
+            } else {
+                emailError.style.display = "none";
+            }
+
+            if (password.value === "") {
+                passwordError.style.display = "block";
+                isValid = false;
+            } else {
+                passwordError.style.display = "none";
+            }
+            if (confirmPassword.value === "") {
+                confirmPasswordError.style.display = "block";
+                isValid = false;
+            } else {
+                confirmPasswordError.style.display = "none";
+            }
+
+            if (!isValid) {
+                return; // Stop if any field is invalid
+            }
+
+            if (password.value !== confirmPassword.value) {
+                alert("Password and Confirm Password didn't match. Try again!");
+            } else {
+                let user = {
+                    userEmail: email.value,
+                    userPassword: password.value,
+                };
+                let jsonUser = localStorage.getItem("user");
+                let usersFromStorage = [];
+                if (jsonUser != null) {
+                    usersFromStorage = JSON.parse(jsonUser);
+                }
+                usersFromStorage.push(user);
+
+                localStorage.setItem("user", JSON.stringify(usersFromStorage));
+                email.value = "";
+                password.value = "";
+                confirmPassword.value = "";
+
+                window.location.href = "Login .html"; 
+            }
+        });
+
+        window.onload = function() {
+            if (email.value === "" && password.value === "" && confirmPassword.value === "") {
+                // Removed the automatic submit on load for signup page
+                // mainForm.dispatchEvent(new Event('submit'));
+            }
+        };
+    </script>
+</body>
+
+</html>

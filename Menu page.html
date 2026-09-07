@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .nav1 {
+            background-color: rgba(100, 149, 237, 0.7);
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(100, 149, 237, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav1 .logo img {
+            width: 50px;
+            padding-left: 20px;
+        }
+
+        .nav1 ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .nav1 ul li {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .nav1 ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .nav1 ul li:hover {
+            background-color: rgba(70, 130, 180, 0.8);
+        }
+
+
+        /* Menu Icon Styles */
+        #menu-icon {
+            display: block;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+        }
+
+        .side-bar {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: absolute;
+            top: 50px;
+            right: -250px;
+            height: auto;
+            transition: right 0.3s ease-in-out;
+            overflow-y: auto;
+            z-index: 1000;
+            max-height: calc(100vh - 60px);
+        }
+
+        .side-bar.show {
+            right: 0;
+        }
+
+        .side-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-bar ul li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .side-bar ul li a {
+            text-decoration: none;
+            color: #0078d7;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .side-bar ul li a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* Food Menu Styles */
+        #Breakfast-Section > div,
+        #Lunch-Section > div,
+        #Drink > div {
+            background-color: rgba(240, 248, 255, 0.7);
+            width: 300px;
+            height: 350px;
+            margin: 10px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(240, 248, 255, 0.3);
+        }
+
+        #Breakfast-Section,
+        #Lunch-Section,
+        #Drink {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .p1, .p2, .p3 {
+            width: 260px;
+            height: 200px;
+            padding-top: 20px;
+            padding-left: 50px;
+            padding-right: 20px;
+        }
+
+        .item-price {
+            padding-left: 20px;
+            justify-content: center;
+        }
+
+        .button {
+            background-color: #ffc107;
+            width: 60px;
+            height: 40px;
+            margin-left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: #343a40;
+        }
+
+        .button:hover {
+            background-color: #e0a800;
+        }
+
+        h1 {
+            display: flex;
+            justify-content: center;
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        hr {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Overlay Styles */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        #overlay.show {
+            display: block;
+        }
+
+        /* Check out Styles */
+        #Check-out-Section {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .check-out-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #total-price {
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        #order-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            width: 100px;
+            text-align: center;
+        }
+
+        #order-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Desktop Styles  */
+    </style>
+</head>
+<body class="body">
+    <nav class="nav1">
+        <div id="menu-icon">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul>
+            <li class="nav"><a href="Home page.html">Home</a></li>
+            <li class="nav"><a href="Menu page.html">Menu</a></li>
+            <li class="nav"><a href="Login .html">Log In</a></li>
+            <li class="nav"><a href="Sign up.html">Sign Up</a></li>
+        </ul>
+
+    </nav>
+        <div id="menu-icon">
+            <i class="fas-fa-bars2"></i>
+        </div>
+
+    <div class="container">
+        <aside class="side-bar">
+            <ul>
+                <li><a href="#Breakfast-Section">Breakfast</a></li>
+                <li><a href="#Lunch-Section" >Lunch</a></li>
+                <li><a href="#Drink" >Drinks</a></li>
+                <li><a href="#Check-out-Section" >Check out</a></li>
+            </ul>
+
+        </aside>
+    </div>
+    <div id="overlay"></div>
+    <h1>Breakfast</h1>
+
+    <div>
+        <section id="Breakfast-Section">
+            <div><img src="Shan Noodle.png" alt="Shan noodles" class="p1">
+                <p class="item-price">Shan Noodles <br> Price : 2500ks.</p>
+                <button class="button" data-name="Shan Noodles" data-price="2500">Order!</button>
+            </div>
+            <div><img src="မုန့်တီသုတ်.png" alt="မုန့်တီသုတ်" class="p1">
+                <p class="item-price">မုန့်တီသုတ် <br> Price : 3500ks. </p>
+                <button class="button" data-name="မုန့်တီသုတ်" data-price="3500">Order!</button>
+            </div>
+            <div>
+                <img src="ဆီချက်ခေါက်ဆွဲ.png" alt="ဆီချက်ခေါက်ဆွဲ" class="p1">
+                <p class="item-price">ဆီချက်ခေါက်ဆွဲ <br> Price : 3000ks. </p>
+                <button class="button" data-name="ဆီချက်ခေါက်ဆွဲ" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="မုန့်ဟင်းခါး.png" alt="မုန့်ဟင်းခါး" class="p1">
+                <p class="item-price">မုန့်ဟင်းခါး <br> Price : 3000ks. </p>
+                <button class="button" data-name="မုန့်ဟင်းခါး" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="တိုဟူးနွေး.png" alt="တိုဟူးနွေး" class="p1">
+                <p class="item-price">တိုဟူးနွေး <br> Price : 3000ks. </p>
+                <button class="button" data-name="တိုဟူးနွေး" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="အကြော်စုံ.png" alt="အကြော်စုံ" class="p1">
+                <p class="item-price">အကြော်စုံ <br> Price : 3000ks. </p>
+                <button class="button" data-name="အကြော်စုံ" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="အုန်းနို့ခေါက်ဆွဲ.png" alt="အုန်းနို့ခေါက်ဆွဲ" class="p1">
+                <p class="item-price">အုန်းနို့ခေါက်ဆွဲ<br> Price : 3000ks. </p>
+                <button class="button" data-name="အုန်းနို့ခေါက်ဆွဲ" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="ပလာတာ.png" alt="ပလာတာ" class="p1">
+                <p class="item-price">ပလာတာ<br> Price : 1500ks. </p>
+                <button class="button" data-name="ပလာတာ" data-price="1500">Order!</button>
+            </div>
+            <div>
+                <img src="ပေါက်စီ.png" alt="ပေါက်စီ" class="p1">
+                <p class="item-price">ပေါက်စီ<br> Price : 1000ks. </p>
+                <button class="button" data-name="ပေါက်စီ" data-price="1000">Order!</button>
+            </div>
+            <div>
+                <img src="ချာပါတီ.png" alt="ချာပါတီ" class="p1">
+                <p class="item-price">ချာပါတီ<br> Price : 1500ks. </p>
+                <button class="button" data-name="ချာပါတီ" data-price="1500">Order!</button>
+            </div>
+            <div>
+                <img src="ပူရီ.png" alt="ပူရီ" class="p1">
+                <p class="item-price">ပူရီ<br> Price : 1500ks. </p>
+                <button class="button" data-name="ပူရီ" data-price="1500">Order!</button>
+            </div>
+        </section>
+    </div>
+    <hr>
+    <h1>Lunch</h1>
+    <div>
+        <section id="Lunch-Section">
+            <div><img src="ကန်စွန်းရွက်ကြော်.jpg" alt="ကန်စွန်းရွက်ကြော်" class="p2">
+                <p class="item-price">ကန်စွန်းရွက်ကြော် <br> Price : 800ks.</p>
+                <button class="button" data-name="ကန်စွန်းရွက်ကြော်" data-price="800">Order!</button>
+            </div>
+            <div><img src="ကြက်ပေါင်း.jpg" alt="ကြက်ပေါင်း" class="p2">
+                <p class="item-price">ကြက်ပေါင်း <br> Price : 3500ks. </p>
+                <button class="button" data-name="ကြက်ပေါင်း" data-price="3500">Order!</button>
+            </div>
+            <div>
+                <img src="ကြက်သားဆီပြန်.jpg" alt="ကြက်သားဆီပြန်" class="p2">
+                <p class="item-price">ကြက်သားဆီပြန်<br> Price : 3000ks. </p>
+                <button class="button" data-name="ကြက်သားဆီပြန်" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="ကြက်သားအချိုကြော်.jpg" alt="ကြက်သားအချိုကြော်" class="p2">
+                <p class="item-price">ကြက်သားအချိုကြော်<br> Price : 3000ks. </p>
+                <button class="button" data-name="ကြက်သားအချိုကြော်" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="ပုစွန်ချက်.jpg" alt="ပုစွန်ချက်" class="p2">
+                <p class="item-price">ပုစွန်ချက်<br> Price : 6000ks. </p>
+                <button class="button" data-name="ပုစွန်ချက်" data-price="6000">Order!</button>
+            </div>
+            <div>
+                <img src="အကြော်စုံ.png" alt="အကြော်စုံ" class="p2">
+                <p class="item-price">အကြော်စုံ<br> Price : 3000ks. </p>
+                <button class="button" data-name="အကြော်စုံ" data-price="3000">Order!</button>
+            </div>
+        </section>
+    </div>
+    <hr>
+    <h1>Drinks</h1>
+    <div>
+        <section id="Drink">
+            <div><img src="Watermelon Juice.jpg" alt="Watermelon" class="p3">
+                <p class="item-price">Watermelon<br> Price : 3000ks.</p>
+                <button class="button" data-name="Watermelon" data-price="3000">Order!</button>
+            </div>
+            <div><img src="Mango Juice.jpg" alt="Mango Juice" class="p3">
+                <p class="item-price">Mango Juice <br> Price : 3000ks. </p>
+                <button class="button" data-name="Mango Juice" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="passionfruit juice.jpg" alt="passionfruit" class="p3">
+                <p class="item-price">passionfruit<br> Price : 3000ks. </p>
+                <button class="button" data-name="passionfruit" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="Expresso.png" alt="Expresso" class="p3">
+                <p class="item-price">Expresso<br> Price : 3800ks. </p>
+                <button class="button" data-name="Expresso" data-price="3800">Order!</button>
+            </div>
+
+
+            <div><img src="Orange Juice.jpg" alt="Orange Juice" class="p3">
+                <p class="item-price">Orange Juice<br> Price : 3000ks. </p>
+                <button class="button" data-name="Orange Juice" data-price="3000">Order!</button>
+            </div>
+            <div><img src="Blueberry milkshake.jpg" alt="Blueberry milkshake" class="p3">
+                <p class="item-price">Blueberry milkshake <br> Price : 4000ks. </p>
+                <button class="button" data-name="Blueberry milkshake" data-price="4000">Order!</button>
+            </div>
+            <div>
+                <img src="Latte.jpg" alt="Latte" class="p3">
+                <p class="item-price">Latte<br> Price : 3000ks. </p>
+                <button class="button" data-name="Latte" data-price="3000">Order!</button>
+            </div>
+            <div>
+                <img src="lavender matcha latte.jpg" alt="lavender matcha latte" class="p3">
+                <p class="item-price">Lavender Matcha Latte<br> Price : 4000ks. </p>
+                <button class="button" data-name="Lavender Matcha Latte" data-price="4000">Order!</button>
+            </div>
+            <div>
+                <img src="Milk.jpg" alt="Milk" class="p3">
+                <p class="item-price">Milk<br> Price : 1800ks. </p>
+                <button class="button" data-name="Milk" data-price="1800">Order!</button>
+            </div>
+            <div>
+                <img src="Oreo Milkshake.jpg" alt="Oreo Milkshake" class="p3">
+                <p class="item-price">Oreo Milkshake<br> Price : 4000ks. </p>
+                <button class="button" data-name="Oreo Milkshake" data-price="4000">Order!</button>
+            </div>
+            <div>
+                <img src="Ice Latte.jpg" alt="Ice latte" class="p3">
+                <p class="item-price">Ice Latte<br> Price : 3800ksks. </p>
+                <button class="button" data-name="Ice Latte" data-price="3800">Order!</button>
+            </div>
+
+        </section>
+    </div>
+    <div id="Check-out-Section">
+        <h2>Your Order</h2>
+        <div id="check-out-items">
+            </div>
+        <p id="total-price">Total: 0 Ks</p>
+        <button id="order-btn">Place Order</button>
+    </div>
+    <script>
+        const menuIcon = document.getElementById('menu-icon');
+        const sideBar = document.querySelector('.side-bar');
+        const overlay = document.getElementById('overlay');
+        const orderButtons = document.querySelectorAll('.button');  // Select all order buttons
+        const checkOutItemsDiv = document.getElementById('check-out-items'); // Get the div where ordered items will be displayed
+        const totalPriceSpan = document.getElementById('total-price');  // Get the element where the total price will be displayed
+        const orderBtn = document.getElementById('order-btn'); // Get the place order button
+        let total = 0; // Variable to store the total price
+
+        // Function to show/hide the sidebar
+        function toggleSidebar() {
+            if (sideBar.classList.contains('show')) {
+                sideBar.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                sideBar.classList.add('show');
+                overlay.classList.add('show');
+            }
+        }
+
+        // Event listener for the menu icon to show/hide the sidebar
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        // Event listener for the overlay to hide the sidebar when clicking outside
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Loop through all the order buttons
+        orderButtons.forEach(button => {
+            // Add a click event listener to each button
+            button.addEventListener('click', function() {
+                // Get the item name and price from the data attributes
+                const itemName = this.dataset.name;
+                const itemPrice = parseFloat(this.dataset.price);
+
+                // Check if the item is already in the checkout
+                const existingItem = checkOutItemsDiv.querySelector(`[data-name="${itemName}"]`);
+
+                if (existingItem) {
+                    // If the item exists, increase the quantity
+                    const quantitySpan = existingItem.querySelector('.item-quantity');
+                    let quantity = parseInt(quantitySpan.textContent.slice(1, -1)); // Get the quantity value inside (..)
+                    quantity++; // Increase the quantity
+                    quantitySpan.textContent = `(${quantity})`; // Update the display
+
+                    // Update the total price
+                    total += itemPrice;
+                    totalPriceSpan.textContent = total + ' Ks';
+                } else {
+                    // If the item is not in the checkout, add it
+                    addItemToCheckout(itemName, itemPrice);
+                }
+                updateTotal();
+            });
+        });
+
+        // Function to add an item to the checkout
+        function addItemToCheckout(name, price) {
+            // Create a new div element for the checkout item
+            const checkOutItem = document.createElement('div');
+            checkOutItem.classList.add('check-out-item');
+            checkOutItem.dataset.name = name; // Store the item name as a data attribute
+
+            // Create spans for the item name, quantity, and price
+            const itemNameSpan = document.createElement('span');
+            itemNameSpan.textContent = name;
+
+            const itemQuantitySpan = document.createElement('span');
+            itemQuantitySpan.textContent = '(1)';  // Initial quantity is 1
+            itemQuantitySpan.classList.add('item-quantity'); // Add a class for quantity
+
+            const itemPriceSpan = document.createElement('span');
+            itemPriceSpan.textContent = price + ' Ks';
+
+            // Add the spans to the checkout item div
+            checkOutItem.appendChild(itemNameSpan);
+            checkOutItem.appendChild(itemQuantitySpan);
+            checkOutItem.appendChild(itemPriceSpan);
+
+            // Add the checkout item div to the checkout items container
+            checkOutItemsDiv.appendChild(checkOutItem);
+
+            // Update the total price
+            total += price;
+            totalPriceSpan.textContent = total + ' Ks';
+        }
+
+        // Function to update the total price
+        function updateTotal() {
+            total = 0; // Reset the total
+
+            // Get all the items in the checkout
+            const items = checkOutItemsDiv.querySelectorAll('.check-out-item');
+
+            // Loop through each item and add up the price
+            items.forEach(item => {
+                const itemPrice = parseFloat(item.querySelector('span:last-child').textContent.replace(' Ks', ''));
+                const quantity = parseInt(item.querySelector('.item-quantity').textContent.slice(1, -1)); // Get quantity inside (..)
+                total += itemPrice * quantity; // Multiply price by quantity
+            });
+
+            // Display the total price
+            totalPriceSpan.textContent = total + ' Ks';
+        }
+
+        // Event listener for the order button
+        orderBtn.addEventListener('click', function() {
+            if (total > 0) {
+                // If there are items in the checkout, show a message and clear the checkout
+                alert('Your order has been placed! Total amount: ' + total + ' Ks');
+                checkOutItemsDiv.innerHTML = ''; // Clear the checkout
+                total = 0; // Reset the total
+                totalPriceSpan.textContent = '0 Ks'; // Update the display
+            } else {
+                // If there are no items in the checkout, show a message
+                alert('Please select items before placing an order.');
+            }
+        });
+    </script>
+</body>
+</html>
+
